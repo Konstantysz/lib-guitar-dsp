@@ -46,8 +46,8 @@ else()
     target_compile_options(pffft PRIVATE -mavx2 -mfma)
 endif()
 
-# Create guitar-dsp library
-add_library(guitar-dsp
+# Create guitar-dsp library (static)
+add_library(guitar-dsp STATIC
     src/PitchDetector.cpp
     src/YinPitchDetector.cpp
     src/NoteConverter.cpp

@@ -32,7 +32,6 @@ namespace GuitarDSP
 
         // Calculate semitones from A4
         const float semitonesFromA4 = SEMITONES_PER_OCTAVE * std::log2(frequency / a4Frequency);
-        const auto midiNote = static_cast<int32_t>(std::round(semitonesFromA4 + static_cast<float>(A4_MIDI)));
 
         // Calculate cent deviation
         const int32_t nearestNote = static_cast<int32_t>(std::round(semitonesFromA4)) + A4_MIDI;
