@@ -5,7 +5,7 @@
 
 namespace GuitarDSP
 {
-    YinPitchDetector::YinPitchDetector(const Config &config) : config_(config)
+    YinPitchDetector::YinPitchDetector(const Config &config) : config(config)
     {
     }
 
@@ -19,8 +19,8 @@ namespace GuitarDSP
         }
 
         // Calculate tau range from frequency range
-        const auto minTau = static_cast<size_t>(sampleRate / config_.maxFrequency);
-        const auto maxTau = static_cast<size_t>(sampleRate / config_.minFrequency);
+        const auto minTau = static_cast<size_t>(sampleRate / config.maxFrequency);
+        const auto maxTau = static_cast<size_t>(sampleRate / config.minFrequency);
         const size_t halfBufferSize = bufferSize / 2;
 
         if (maxTau >= halfBufferSize)
@@ -29,9 +29,9 @@ namespace GuitarDSP
         }
 
         // Resize YIN buffer if needed
-        if (yinBuffer_.size() < halfBufferSize)
+        if (yinBuffer.size() < halfBufferSize)
         {
-            yinBuffer_.resize(halfBufferSize, 0.0f);
+            yinBuffer.resize(halfBufferSize, 0.0f);
         }
 
         // Step 1: Calculate difference function
@@ -43,23 +43,23 @@ namespace GuitarDSP
                 const float delta = buffer[i] - buffer[i + tau];
                 sum += delta * delta;
             }
-            yinBuffer_[tau] = sum;
+            yinBuffer[tau] = sum;
         }
 
         // Step 2: Calculate cumulative mean normalized difference function
-        yinBuffer_[0] = 1.0f;
+        yinBuffer[0] = 1.0f;
         float runningSum = 0.0f;
 
         for (size_t tau = 1; tau < halfBufferSize; ++tau)
         {
-            runningSum += yinBuffer_[tau];
+            runningSum += yinBuffer[tau];
             if (runningSum != 0.0f)
             {
-                yinBuffer_[tau] *= static_cast<float>(tau) / runningSum;
+                yinBuffer[tau] *= static_cast<float>(tau) / runningSum;
             }
             else
             {
-                yinBuffer_[tau] = 1.0f;
+                yinBuffer[tau] = 1.0f;
             }
         }
 
@@ -67,23 +67,23 @@ namespace GuitarDSP
         size_t tau = minTau;
         while (tau < maxTau)
         {
-            if (yinBuffer_[tau] < config_.threshold)
+            if (yinBuffer[tau] < config.threshold)
             {
                 // Step 4: Parabolic interpolation for sub-sample accuracy
                 float betterTau = static_cast<float>(tau);
 
                 if (tau > 0 && tau < halfBufferSize - 1)
                 {
-                    const float s0 = yinBuffer_[tau - 1];
-                    const float s1 = yinBuffer_[tau];
-                    const float s2 = yinBuffer_[tau + 1];
+                    const float s0 = yinBuffer[tau - 1];
+                    const float s1 = yinBuffer[tau];
+                    const float s2 = yinBuffer[tau + 1];
 
                     const float adjustment = (s2 - s0) / (2.0f * (2.0f * s1 - s2 - s0));
                     betterTau += adjustment;
                 }
 
                 const float frequency = sampleRate / betterTau;
-                const float confidence = 1.0f - yinBuffer_[tau];
+                const float confidence = 1.0f - yinBuffer[tau];
 
                 return PitchResult{ frequency, confidence };
             }
@@ -95,7 +95,7 @@ namespace GuitarDSP
 
     void YinPitchDetector::Reset()
     {
-        std::fill(yinBuffer_.begin(), yinBuffer_.end(), 0.0f);
+        std::fill(yinBuffer.begin(), yinBuffer.end(), 0.0f);
     }
 
 } // namespace GuitarDSP

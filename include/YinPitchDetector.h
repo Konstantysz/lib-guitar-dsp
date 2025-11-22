@@ -54,8 +54,8 @@ namespace GuitarDSP
         void Reset() override;
 
     private:
-        Config config_;
-        std::vector<float> yinBuffer_; ///< Temporary buffer for YIN calculation
+        Config config;
+        std::vector<float> yinBuffer; ///< Temporary buffer for YIN calculation
     };
 
 } // namespace GuitarDSP
