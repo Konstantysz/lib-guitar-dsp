@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string>
 #include <cstdint>
+#include <string>
 
 namespace GuitarDSP
 {
@@ -10,10 +10,10 @@ namespace GuitarDSP
      */
     struct NoteInfo
     {
-        std::string name;      ///< Note name (e.g., "A", "C#")
-        int32_t octave;        ///< Octave number
-        float cents;           ///< Deviation in cents [-50.0, 50.0]
-        float frequency;       ///< Target frequency in Hz
+        std::string name; ///< Note name (e.g., "A", "C#")
+        int32_t octave;   ///< Octave number
+        float cents;      ///< Deviation in cents [-50.0, 50.0]
+        float frequency;  ///< Target frequency in Hz
     };
 
     /**
@@ -31,10 +31,7 @@ namespace GuitarDSP
          * @param a4Frequency Reference A4 frequency (default 440.0 Hz)
          * @return Note information
          */
-        [[nodiscard]] static NoteInfo FrequencyToNote(
-            float frequency,
-            float a4Frequency = 440.0f
-        );
+        [[nodiscard]] static NoteInfo FrequencyToNote(float frequency, float a4Frequency = 440.0f);
 
         /**
          * @brief Converts note to frequency
@@ -43,11 +40,8 @@ namespace GuitarDSP
          * @param a4Frequency Reference A4 frequency (default 440.0 Hz)
          * @return Frequency in Hz
          */
-        [[nodiscard]] static float NoteToFrequency(
-            const std::string& noteName,
-            int32_t octave,
-            float a4Frequency = 440.0f
-        );
+        [[nodiscard]] static float
+            NoteToFrequency(const std::string &noteName, int32_t octave, float a4Frequency = 440.0f);
 
         /**
          * @brief Calculates cent difference between two frequencies
@@ -55,10 +49,7 @@ namespace GuitarDSP
          * @param frequency2 Second frequency in Hz
          * @return Cent difference (positive if frequency1 > frequency2)
          */
-        [[nodiscard]] static float FrequencyToCents(
-            float frequency1,
-            float frequency2
-        );
+        [[nodiscard]] static float FrequencyToCents(float frequency1, float frequency2);
 
         /**
          * @brief Returns note name from MIDI note number
@@ -73,10 +64,7 @@ namespace GuitarDSP
          * @param octave Octave number
          * @return MIDI note number (0-127)
          */
-        [[nodiscard]] static int32_t NoteNameToMidi(
-            const std::string& noteName,
-            int32_t octave
-        );
+        [[nodiscard]] static int32_t NoteNameToMidi(const std::string &noteName, int32_t octave);
     };
 
 } // namespace GuitarDSP

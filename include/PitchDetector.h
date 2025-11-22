@@ -10,8 +10,8 @@ namespace GuitarDSP
      */
     struct PitchResult
     {
-        float frequency;   ///< Detected frequency in Hz
-        float confidence;  ///< Confidence level [0.0, 1.0]
+        float frequency;  ///< Detected frequency in Hz
+        float confidence; ///< Confidence level [0.0, 1.0]
     };
 
     /**
@@ -29,11 +29,8 @@ namespace GuitarDSP
          * @param sampleRate Sample rate in Hz
          * @return Pitch result if detected, nullopt otherwise
          */
-        [[nodiscard]] virtual std::optional<PitchResult> Detect(
-            const float* buffer,
-            size_t bufferSize,
-            float sampleRate
-        ) = 0;
+        [[nodiscard]] virtual std::optional<PitchResult>
+            Detect(const float *buffer, size_t bufferSize, float sampleRate) = 0;
 
         /**
          * @brief Resets internal state

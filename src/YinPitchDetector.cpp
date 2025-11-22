@@ -5,17 +5,13 @@
 
 namespace GuitarDSP
 {
-    YinPitchDetector::YinPitchDetector(const Config& config)
-        : config_(config)
+    YinPitchDetector::YinPitchDetector(const Config &config) : config_(config)
     {
     }
 
     YinPitchDetector::~YinPitchDetector() = default;
 
-    std::optional<PitchResult> YinPitchDetector::Detect(
-        const float* buffer,
-        size_t bufferSize,
-        float sampleRate)
+    std::optional<PitchResult> YinPitchDetector::Detect(const float *buffer, size_t bufferSize, float sampleRate)
     {
         if (!buffer || bufferSize == 0 || sampleRate <= 0.0f)
         {
@@ -89,7 +85,7 @@ namespace GuitarDSP
                 const float frequency = sampleRate / betterTau;
                 const float confidence = 1.0f - yinBuffer_[tau];
 
-                return PitchResult{frequency, confidence};
+                return PitchResult{ frequency, confidence };
             }
             ++tau;
         }

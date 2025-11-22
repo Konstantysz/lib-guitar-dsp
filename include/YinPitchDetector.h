@@ -22,8 +22,8 @@ namespace GuitarDSP
          */
         struct Config
         {
-            float threshold = 0.15f;     ///< Detection threshold [0.0, 1.0]
-            float minFrequency = 80.0f;  ///< Minimum detectable frequency (Hz)
+            float threshold = 0.15f;      ///< Detection threshold [0.0, 1.0]
+            float minFrequency = 80.0f;   ///< Minimum detectable frequency (Hz)
             float maxFrequency = 1200.0f; ///< Maximum detectable frequency (Hz)
         };
 
@@ -31,7 +31,7 @@ namespace GuitarDSP
          * @brief Constructs YIN pitch detector
          * @param config Algorithm configuration
          */
-        explicit YinPitchDetector(const Config& config = Config{});
+        explicit YinPitchDetector(const Config &config = Config{});
 
         /**
          * @brief Destructor
@@ -45,11 +45,8 @@ namespace GuitarDSP
          * @param sampleRate Sample rate in Hz
          * @return Pitch result if detected, nullopt otherwise
          */
-        [[nodiscard]] std::optional<PitchResult> Detect(
-            const float* buffer,
-            size_t bufferSize,
-            float sampleRate
-        ) override;
+        [[nodiscard]] std::optional<PitchResult>
+            Detect(const float *buffer, size_t bufferSize, float sampleRate) override;
 
         /**
          * @brief Resets internal state

@@ -1,0 +1,132 @@
+AccessModifierOffset: -4
+AlignAfterOpenBracket: DontAlign
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignEscapedNewlines: Left
+AlignOperands: true
+AlignTrailingComments: true
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakAfterReturnType: None
+AlwaysBreakBeforeMultilineStrings: true
+AlwaysBreakTemplateDeclarations: false
+BinPackArguments: false
+BinPackParameters: false
+BraceWrapping:
+  AfterClass: true
+  AfterControlStatement: true
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterObjCDeclaration: true
+  AfterStruct: true
+  AfterUnion: true
+  BeforeCatch: true
+  BeforeElse: true
+  IndentBraces: false
+  SplitEmptyFunction: true
+  SplitEmptyNamespace: true
+  SplitEmptyRecord: true
+BreakAfterJavaFieldAnnotations: true
+BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeBraces: Custom
+BreakBeforeInheritanceComma: true
+BreakBeforeTernaryOperators: true
+BreakConstructorInitializers: BeforeColon
+BreakConstructorInitializersBeforeComma: false
+BreakStringLiterals: true
+ColumnLimit: 120
+CommentPragmas: '^ IWYU pragma:'
+CompactNamespaces: false
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+Cpp11BracedListStyle: false
+DerivePointerAlignment: false
+DisableFormat: false
+ExperimentalAutoDetectBinPacking: true
+FixNamespaceComments: true
+ForEachMacros:
+- foreach
+- Q_FOREACH
+- BOOST_FOREACH
+IncludeCategories:
+  # Priority 0: Main module header (e.g., Foo.cpp includes "Foo.h" first)
+  # Handled automatically by IncludeIsMainRegex
+
+  # Priority 1: Related headers from same module/directory
+- Priority: 1
+  Regex: '^"(Main|Events|Layers|Persistence|Editor|Rendering|Canvas|Connections|Input|UI|Commands|Clipboard)/'
+
+  # Priority 2: Other project headers (VisionCraft, VisionCraftEngine)
+- Priority: 2
+  Regex: '^"'
+
+  # Priority 3: Kappa-core framework headers
+- Priority: 3
+  Regex: '^<(Application|Window|Logger|Event|Layer|EventBus|Version)'
+
+  # Priority 4: ImGui headers
+- Priority: 4
+  Regex: '^<imgui'
+
+  # Priority 5: OpenGL/GLFW headers (order matters: glad before GLFW)
+- Priority: 5
+  Regex: '^<glad/'
+- Priority: 6
+  Regex: '^<GLFW/'
+
+  # Priority 7: OpenCV headers
+- Priority: 7
+  Regex: '^<opencv2/'
+
+  # Priority 8: Other third-party libraries (nlohmann-json, glm, spdlog, gtest)
+- Priority: 8
+  Regex: '^<(nlohmann|glm|spdlog|gtest|gmock)/'
+
+  # Priority 9: C++ standard library headers
+- Priority: 9
+  Regex: '^<[a-z_]+>$'
+
+  # Priority 10: C standard library headers
+- Priority: 10
+  Regex: '^<[a-z_]+\.h>$'
+
+IncludeIsMainRegex: (Test)?$
+IndentCaseLabels: false
+IndentWidth: 4
+IndentWrappedFunctionNames: true
+JavaScriptQuotes: Leave
+JavaScriptWrapImports: true
+KeepEmptyLinesAtTheStartOfBlocks: true
+Language: Cpp
+MacroBlockBegin: ''
+MacroBlockEnd: ''
+MaxEmptyLinesToKeep: 2
+NamespaceIndentation: All
+ObjCBlockIndentWidth: 7
+ObjCSpaceAfterProperty: true
+ObjCSpaceBeforeProtocolList: false
+PointerAlignment: Right
+ReflowComments: true
+SortIncludes: true
+SortUsingDeclarations: false
+SpaceAfterCStyleCast: false
+SpaceAfterTemplateKeyword: false
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 1
+SpacesInAngles: false
+SpacesInCStyleCastParentheses: false
+SpacesInContainerLiterals: true
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+Standard: c++20
+TabWidth: 8
+UseTab: Never
