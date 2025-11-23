@@ -11,12 +11,14 @@ namespace GuitarDSP
 
     YinPitchDetector::~YinPitchDetector() = default;
 
-    std::optional<PitchResult> YinPitchDetector::Detect(const float *buffer, size_t bufferSize, float sampleRate)
+    std::optional<PitchResult> YinPitchDetector::Detect(std::span<const float> buffer, float sampleRate)
     {
-        if (!buffer || bufferSize == 0 || sampleRate <= 0.0f)
+        if (buffer.empty() || sampleRate <= 0.0f)
         {
             return std::nullopt;
         }
+
+        const size_t bufferSize = buffer.size();
 
         // Calculate tau range from frequency range
         const auto minTau = static_cast<size_t>(sampleRate / config.maxFrequency);

@@ -41,12 +41,11 @@ namespace GuitarDSP
         /**
          * @brief Detects pitch from audio buffer
          * @param buffer Input audio buffer (mono)
-         * @param bufferSize Number of samples in buffer
          * @param sampleRate Sample rate in Hz
          * @return Pitch result if detected, nullopt otherwise
          */
         [[nodiscard]] std::optional<PitchResult>
-            Detect(const float *buffer, size_t bufferSize, float sampleRate) override;
+            Detect(std::span<const float> buffer, float sampleRate) override;
 
         /**
          * @brief Resets internal state
