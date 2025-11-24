@@ -51,6 +51,7 @@ add_library(guitar-dsp STATIC
     src/PitchDetector.cpp
     src/YinPitchDetector.cpp
     src/NoteConverter.cpp
+    src/PitchStabilizer.cpp
 )
 
 target_include_directories(guitar-dsp PUBLIC
