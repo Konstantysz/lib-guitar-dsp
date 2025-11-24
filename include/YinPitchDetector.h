@@ -33,23 +33,11 @@ namespace GuitarDSP
          */
         explicit YinPitchDetector(const Config &config = Config{});
 
-        /**
-         * @brief Destructor
-         */
         ~YinPitchDetector() override;
 
-        /**
-         * @brief Detects pitch from audio buffer
-         * @param buffer Input audio buffer (mono)
-         * @param sampleRate Sample rate in Hz
-         * @return Pitch result if detected, nullopt otherwise
-         */
         [[nodiscard]] std::optional<PitchResult>
             Detect(std::span<const float> buffer, float sampleRate) override;
 
-        /**
-         * @brief Resets internal state
-         */
         void Reset() override;
 
     private:
