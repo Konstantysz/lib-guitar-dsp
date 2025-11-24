@@ -26,6 +26,7 @@ repos:
     hooks:
       - id: clang-format
         files: \.(cpp|hpp|c|h|cc|cxx)$
+        exclude: ^external/pffft/
         args: ['-i', '--style=file']
 
   # CMake formatting
