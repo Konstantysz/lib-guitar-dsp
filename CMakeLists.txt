@@ -50,6 +50,8 @@ endif()
 add_library(guitar-dsp STATIC
     src/PitchDetector.cpp
     src/YinPitchDetector.cpp
+    src/MpmPitchDetector.cpp
+    src/HybridPitchDetector.cpp
     src/NoteConverter.cpp
     src/PitchStabilizer.cpp
 )
