@@ -1,6 +1,7 @@
 #include "PitchStabilizer.h"
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 
 namespace GuitarDSP
 {
