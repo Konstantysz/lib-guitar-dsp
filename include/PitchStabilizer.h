@@ -2,6 +2,7 @@
 
 #include "PitchDetector.h"
 #include <cstddef>
+#include <cstdint>
 #include <vector>
 
 namespace GuitarDSP
