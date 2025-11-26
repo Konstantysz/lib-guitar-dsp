@@ -37,7 +37,7 @@ namespace GuitarDSP
          * @brief Constructs hybrid pitch detector
          * @param config Hybrid configuration
          */
-        explicit HybridPitchDetector(const Config &config = Config{});
+        explicit HybridPitchDetector(const Config &config = Config());
 
         ~HybridPitchDetector() override;
 
@@ -61,8 +61,8 @@ namespace GuitarDSP
         std::unique_ptr<YinPitchDetector> yinDetector; ///< YIN detector instance
         std::unique_ptr<MpmPitchDetector> mpmDetector; ///< MPM detector instance
 
-        mutable size_t yinUsedCount = 0; ///< Counter for YIN algorithm usage
-        mutable size_t mpmUsedCount = 0; ///< Counter for MPM algorithm usage
+        mutable size_t yinUsedCount; ///< Counter for YIN algorithm usage
+        mutable size_t mpmUsedCount; ///< Counter for MPM algorithm usage
     };
 
 } // namespace GuitarDSP

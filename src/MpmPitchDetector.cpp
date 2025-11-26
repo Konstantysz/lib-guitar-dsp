@@ -6,7 +6,8 @@
 namespace GuitarDSP
 {
 
-    MpmPitchDetector::MpmPitchDetector(const Config &config) : config(config)
+    MpmPitchDetector::MpmPitchDetector(const Config &config)
+        : config(config), nsdfBuffer({}), acfBuffer({}), rBuffer({})
     {
     }
 

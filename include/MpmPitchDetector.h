@@ -32,7 +32,7 @@ namespace GuitarDSP
          * @brief Constructs MPM pitch detector
          * @param config Algorithm configuration
          */
-        explicit MpmPitchDetector(const Config &config = Config{});
+        explicit MpmPitchDetector(const Config &config = Config());
 
         ~MpmPitchDetector() override;
 

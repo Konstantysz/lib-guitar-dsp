@@ -31,7 +31,7 @@ namespace GuitarDSP
          * @brief Constructs YIN pitch detector
          * @param config Algorithm configuration
          */
-        explicit YinPitchDetector(const Config &config = Config{});
+        explicit YinPitchDetector(const Config &config = Config());
 
         ~YinPitchDetector() override;
 
