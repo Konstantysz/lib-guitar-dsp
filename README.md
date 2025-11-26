@@ -1,5 +1,9 @@
 # lib-guitar-dsp
 
+[![Build Status](https://github.com/Konstantysz/kappa-core/actions/workflows/build.yml/badge.svg)](https://github.com/Konstantysz/kappa-core/actions/workflows/build.yml)
+[![Tests](https://github.com/Konstantysz/kappa-core/actions/workflows/tests.yml/badge.svg)](https://github.com/Konstantysz/kappa-core/actions/workflows/tests.yml)
+[![Static Analysis](https://github.com/Konstantysz/kappa-core/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/Konstantysz/kappa-core/actions/workflows/static-analysis.yml)
+
 Digital signal processing library for guitar applications with ±0.1 cent pitch detection accuracy.
 
 ## Overview
@@ -60,6 +64,7 @@ Based on "YIN, a fundamental frequency estimator for speech and music" (de Cheve
 4. **Parabolic Interpolation**: Sub-sample accuracy
 
 **Performance**:
+
 - Accuracy: 0.78% error rate (±0.1 cent)
 - Latency: ~20-50ms (depending on buffer size)
 - Frequency range: 80 Hz - 1200 Hz (configurable)
@@ -111,6 +116,7 @@ lib-guitar-dsp/
 ## Optimization
 
 PFFFT is compiled with SIMD optimizations:
+
 - **MSVC**: `/arch:AVX2`
 - **GCC/Clang**: `-mavx2 -mfma`
 
