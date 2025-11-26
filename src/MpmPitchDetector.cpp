@@ -146,7 +146,11 @@ namespace GuitarDSP
             }
         }
 
-        // Find peaks between zero crossings
+        if (zeroCrossings.size() < 2)
+        {
+            return peaks;
+        }
+
         for (size_t i = 0; i < zeroCrossings.size() - 1; ++i)
         {
             int start = zeroCrossings[i];
