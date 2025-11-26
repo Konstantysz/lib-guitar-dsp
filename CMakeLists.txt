@@ -39,11 +39,34 @@ target_include_directories(pffft PUBLIC
     external/pffft
 )
 
-# Enable SIMD optimizations for PFFFT
+# Advanced SIMD configuration with compiler feature detection
+include(CheckCXXCompilerFlag)
+
 if(MSVC)
-    target_compile_options(pffft PRIVATE /arch:AVX2)
+    # Windows with MSVC
+    check_cxx_compiler_flag(/arch:AVX2 COMPILER_SUPPORTS_AVX2)
+    if(COMPILER_SUPPORTS_AVX2)
+        target_compile_options(pffft PRIVATE /arch:AVX2)
+        message(STATUS "PFFFT: Enabling AVX2 for MSVC")
+    else()
+        target_compile_definitions(pffft PRIVATE PFFFT_SIMD_DISABLE)
+        message(STATUS "PFFFT: AVX2 not supported, using scalar implementation")
+    endif()
 else()
-    target_compile_options(pffft PRIVATE -mavx2 -mfma)
+    # Non-Windows platforms
+    check_cxx_compiler_flag(-mavx2 COMPILER_SUPPORTS_AVX2)
+    check_cxx_compiler_flag(-mfma COMPILER_SUPPORTS_FMA)
+
+    if(COMPILER_SUPPORTS_AVX2 AND COMPILER_SUPPORTS_FMA AND
+       (CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64" OR
+        CMAKE_SYSTEM_PROCESSOR MATCHES "AMD64" OR
+        CMAKE_SYSTEM_PROCESSOR MATCHES "i386"))
+        target_compile_options(pffft PRIVATE -mavx2 -mfma)
+        message(STATUS "PFFFT: Enabling AVX2 and FMA for ${CMAKE_SYSTEM_PROCESSOR}")
+    else()
+        target_compile_definitions(pffft PRIVATE PFFFT_SIMD_DISABLE)
+        message(STATUS "PFFFT: Using scalar implementation on ${CMAKE_SYSTEM_PROCESSOR}")
+    endif()
 endif()
 
 # Create guitar-dsp library (static)
