@@ -29,8 +29,7 @@ namespace GuitarDSP
          * @param sampleRate Sample rate in Hz
          * @return Pitch result if detected, nullopt otherwise
          */
-        [[nodiscard]] virtual std::optional<PitchResult>
-            Detect(std::span<const float> buffer, float sampleRate) = 0;
+        [[nodiscard]] virtual std::optional<PitchResult> Detect(std::span<const float> buffer, float sampleRate) = 0;
 
         /**
          * @brief Resets internal state
