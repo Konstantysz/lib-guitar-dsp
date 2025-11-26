@@ -1,0 +1,36 @@
+name: Format Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  clang-format:
+    name: Check code formatting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-format-14
+
+      - name: Check formatting
+        continue-on-error: true
+        run: |
+          find . -type f \( -name '*.cpp' -o -name '*.h' \) \
+            ! -path "*/build/*" \
+            ! -path "*/vcpkg/*" \
+            ! -path "*/examples/*/build/*" \
+            -exec clang-format-14 --dry-run --Werror {} +
+
+      - name: Show format suggestion
+        if: failure()
+        run: |
+          echo "::warning::Some files need formatting. Run locally:"
+          echo "  find . -type f \( -name '*.cpp' -o -name '*.h' \) -exec clang-format -i {} +"
