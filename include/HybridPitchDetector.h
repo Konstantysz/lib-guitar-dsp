@@ -7,6 +7,18 @@
 namespace GuitarDSP
 {
     /**
+     * @brief Configuration for hybrid detector
+     */
+    struct HybridPitchDetectorConfig
+    {
+        float yinConfidenceThreshold = 0.8f; ///< Use MPM if YIN confidence below this
+        bool enableHarmonicRejection = true; ///< Enable harmonic rejection
+        float harmonicTolerance = 0.05f;     ///< Tolerance for harmonic detection (5%)
+        YinPitchDetectorConfig yinConfig;    ///< YIN configuration
+        MpmPitchDetectorConfig mpmConfig;    ///< MPM configuration
+    };
+
+    /**
      * @brief Hybrid pitch detector combining YIN and MPM with harmonic rejection
      *
      * Strategy:
@@ -21,23 +33,10 @@ namespace GuitarDSP
     {
     public:
         /**
-         * @brief Configuration for hybrid detector
-         */
-        struct Config
-        {
-            float yinConfidenceThreshold = 0.8f; ///< Use MPM if YIN confidence below this
-            bool enableHarmonicRejection = true; ///< Enable harmonic rejection
-            float harmonicTolerance = 0.05f;     ///< Tolerance for harmonic detection (5%)
-
-            YinPitchDetector::Config yinConfig; ///< YIN configuration
-            MpmPitchDetector::Config mpmConfig; ///< MPM configuration
-        };
-
-        /**
          * @brief Constructs hybrid pitch detector
          * @param config Hybrid configuration
          */
-        explicit HybridPitchDetector(const Config &config = Config());
+        explicit HybridPitchDetector(const HybridPitchDetectorConfig &config = HybridPitchDetectorConfig{});
 
         ~HybridPitchDetector() override;
 
@@ -57,7 +56,7 @@ namespace GuitarDSP
          */
         bool IsHarmonic(float freq1, float freq2, int harmonicNumber);
 
-        Config config;                                 ///< Detector configuration
+        HybridPitchDetectorConfig config;              ///< Detector configuration
         std::unique_ptr<YinPitchDetector> yinDetector; ///< YIN detector instance
         std::unique_ptr<MpmPitchDetector> mpmDetector; ///< MPM detector instance
 

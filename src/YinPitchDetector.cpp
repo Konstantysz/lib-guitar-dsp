@@ -5,7 +5,7 @@
 
 namespace GuitarDSP
 {
-    YinPitchDetector::YinPitchDetector(const Config &config) : config(config), yinBuffer({})
+    YinPitchDetector::YinPitchDetector(const YinPitchDetectorConfig &config) : config(config), yinBuffer({})
     {
     }
 

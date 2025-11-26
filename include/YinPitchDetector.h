@@ -7,6 +7,16 @@
 namespace GuitarDSP
 {
     /**
+     * @brief Configuration for YIN algorithm
+     */
+    struct YinPitchDetectorConfig
+    {
+        float threshold = 0.15f;      ///< Detection threshold [0.0, 1.0]
+        float minFrequency = 80.0f;   ///< Minimum detectable frequency (Hz)
+        float maxFrequency = 1200.0f; ///< Maximum detectable frequency (Hz)
+    };
+
+    /**
      * @brief YIN pitch detection algorithm implementation
      *
      * Based on "YIN, a fundamental frequency estimator for speech and music"
@@ -18,20 +28,10 @@ namespace GuitarDSP
     {
     public:
         /**
-         * @brief Configuration for YIN algorithm
-         */
-        struct Config
-        {
-            float threshold = 0.15f;      ///< Detection threshold [0.0, 1.0]
-            float minFrequency = 80.0f;   ///< Minimum detectable frequency (Hz)
-            float maxFrequency = 1200.0f; ///< Maximum detectable frequency (Hz)
-        };
-
-        /**
          * @brief Constructs YIN pitch detector
          * @param config Algorithm configuration
          */
-        explicit YinPitchDetector(const Config &config = Config());
+        explicit YinPitchDetector(const YinPitchDetectorConfig &config = YinPitchDetectorConfig{});
 
         ~YinPitchDetector() override;
 
@@ -40,8 +40,8 @@ namespace GuitarDSP
         void Reset() override;
 
     private:
-        Config config;                ///< Algorithm configuration
-        std::vector<float> yinBuffer; ///< Temporary buffer for YIN calculation
+        YinPitchDetectorConfig config; ///< Algorithm configuration
+        std::vector<float> yinBuffer;  ///< Temporary buffer for YIN calculation
     };
 
 } // namespace GuitarDSP

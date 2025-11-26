@@ -4,7 +4,7 @@
 namespace GuitarDSP
 {
 
-    HybridPitchDetector::HybridPitchDetector(const Config &config)
+    HybridPitchDetector::HybridPitchDetector(const HybridPitchDetectorConfig &config)
         : config(config), yinDetector(nullptr), mpmDetector(nullptr), yinUsedCount(0), mpmUsedCount(0)
     {
         // Fine-tune YIN for guitar frequencies

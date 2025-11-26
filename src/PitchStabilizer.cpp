@@ -4,9 +4,7 @@
 
 namespace GuitarDSP
 {
-    // ========== ExponentialMovingAverage ==========
-
-    ExponentialMovingAverage::ExponentialMovingAverage(const Config &config)
+    ExponentialMovingAverage::ExponentialMovingAverage(const EMAConfig &config)
         : config(config), stabilized{ 0.0f, 0.0f }, initialized(false)
     {
     }
@@ -38,9 +36,7 @@ namespace GuitarDSP
         initialized = false;
     }
 
-    // ========== MedianFilter ==========
-
-    MedianFilter::MedianFilter(const Config &config) : config(config), writeIndex(0), sampleCount(0)
+    MedianFilter::MedianFilter(const MedianFilterConfig &config) : config(config), writeIndex(0), sampleCount(0)
     {
         // Pre-allocate window buffer (real-time safe)
         window.resize(config.windowSize, { 0.0f, 0.0f });
@@ -114,10 +110,8 @@ namespace GuitarDSP
         return median;
     }
 
-    // ========== HybridStabilizer ==========
-
-    HybridStabilizer::HybridStabilizer(const Config &config)
-        : config(config), medianFilter(MedianFilter::Config{ config.windowSize }), emaResult{ 0.0f, 0.0f },
+    HybridStabilizer::HybridStabilizer(const HybridStabilizerConfig &config)
+        : config(config), medianFilter(MedianFilterConfig{ config.windowSize }), emaResult{ 0.0f, 0.0f },
           initialized(false)
     {
     }

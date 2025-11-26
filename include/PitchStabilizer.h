@@ -37,6 +37,14 @@ namespace GuitarDSP
     };
 
     /**
+     * @brief Configuration for EMA stabilizer
+     */
+    struct EMAConfig
+    {
+        float alpha = 0.3f; ///< Smoothing factor [0.0, 1.0]
+    };
+
+    /**
      * @brief Exponential Moving Average pitch stabilizer
      *
      * Simple and efficient smoothing using weighted average:
@@ -49,18 +57,10 @@ namespace GuitarDSP
     {
     public:
         /**
-         * @brief Configuration for EMA stabilizer
-         */
-        struct Config
-        {
-            float alpha = 0.3f; ///< Smoothing factor [0.0, 1.0]
-        };
-
-        /**
          * @brief Constructs EMA stabilizer
          * @param config Algorithm configuration
          */
-        explicit ExponentialMovingAverage(const Config &config = Config{});
+        explicit ExponentialMovingAverage(const EMAConfig &config = EMAConfig{});
 
         void Update(const PitchResult &result) override;
 
@@ -69,9 +69,17 @@ namespace GuitarDSP
         void Reset() override;
 
     private:
-        Config config;          ///< Stabilizer configuration
+        EMAConfig config;       ///< Stabilizer configuration
         PitchResult stabilized; ///< Current stabilized result
         bool initialized;       ///< Initialization flag
+    };
+
+    /**
+     * @brief Configuration for median filter stabilizer
+     */
+    struct MedianFilterConfig
+    {
+        uint32_t windowSize = 5; ///< Sliding window size (odd recommended)
     };
 
     /**
@@ -88,18 +96,10 @@ namespace GuitarDSP
     {
     public:
         /**
-         * @brief Configuration for median filter stabilizer
-         */
-        struct Config
-        {
-            uint32_t windowSize = 5; ///< Sliding window size (odd recommended)
-        };
-
-        /**
          * @brief Constructs median filter stabilizer
          * @param config Algorithm configuration
          */
-        explicit MedianFilter(const Config &config = Config{});
+        explicit MedianFilter(const MedianFilterConfig &config = MedianFilterConfig{});
 
         void Update(const PitchResult &result) override;
 
@@ -108,12 +108,21 @@ namespace GuitarDSP
         void Reset() override;
 
     private:
-        Config config;                   ///< Stabilizer configuration
+        MedianFilterConfig config;       ///< Stabilizer configuration
         std::vector<PitchResult> window; ///< Circular buffer (pre-allocated)
         uint32_t writeIndex;             ///< Current write position
         uint32_t sampleCount;            ///< Number of samples in buffer
 
         [[nodiscard]] PitchResult ComputeMedian() const;
+    };
+
+    /**
+     * @brief Configuration for hybrid stabilizer
+     */
+    struct HybridStabilizerConfig
+    {
+        float baseAlpha = 0.3f;  ///< Base EMA alpha [0.0, 1.0]
+        uint32_t windowSize = 5; ///< Median filter window size
     };
 
     /**
@@ -132,19 +141,10 @@ namespace GuitarDSP
     {
     public:
         /**
-         * @brief Configuration for hybrid stabilizer
-         */
-        struct Config
-        {
-            float baseAlpha = 0.3f;  ///< Base EMA alpha [0.0, 1.0]
-            uint32_t windowSize = 5; ///< Median filter window size
-        };
-
-        /**
          * @brief Constructs hybrid stabilizer
          * @param config Algorithm configuration
          */
-        explicit HybridStabilizer(const Config &config = Config{});
+        explicit HybridStabilizer(const HybridStabilizerConfig &config = HybridStabilizerConfig{});
 
         void Update(const PitchResult &result) override;
 
@@ -155,10 +155,10 @@ namespace GuitarDSP
     private:
         [[nodiscard]] float ComputeAdaptiveAlpha(float confidence) const;
 
-        Config config;             ///< Stabilizer configuration
-        MedianFilter medianFilter; ///< Median filter stage
-        PitchResult emaResult;     ///< EMA stage result
-        bool initialized;          ///< Initialization flag
+        HybridStabilizerConfig config; ///< Stabilizer configuration
+        MedianFilter medianFilter;     ///< Median filter stage
+        PitchResult emaResult;         ///< EMA stage result
+        bool initialized;              ///< Initialization flag
     };
 
 } // namespace GuitarDSP
