@@ -35,13 +35,12 @@ namespace GuitarDSP
 
         ~YinPitchDetector() override;
 
-        [[nodiscard]] std::optional<PitchResult>
-            Detect(std::span<const float> buffer, float sampleRate) override;
+        [[nodiscard]] std::optional<PitchResult> Detect(std::span<const float> buffer, float sampleRate) override;
 
         void Reset() override;
 
     private:
-        Config config;
+        Config config;                ///< Algorithm configuration
         std::vector<float> yinBuffer; ///< Temporary buffer for YIN calculation
     };
 

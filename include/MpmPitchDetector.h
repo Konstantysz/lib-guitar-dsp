@@ -56,7 +56,7 @@ namespace GuitarDSP
          */
         float ParabolicInterpolation(int tau);
 
-        Config config;
+        Config config;                 ///< Algorithm configuration
         std::vector<float> nsdfBuffer; ///< NSDF values
         std::vector<float> acfBuffer;  ///< Autocorrelation buffer
         std::vector<float> rBuffer;    ///< Temp buffer for ACF calculation

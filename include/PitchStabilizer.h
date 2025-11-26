@@ -63,13 +63,15 @@ namespace GuitarDSP
         explicit ExponentialMovingAverage(const Config &config = Config{});
 
         void Update(const PitchResult &result) override;
+
         [[nodiscard]] PitchResult GetStabilized() const override;
+
         void Reset() override;
 
     private:
-        Config config;
-        PitchResult stabilized;
-        bool initialized;
+        Config config;          ///< Stabilizer configuration
+        PitchResult stabilized; ///< Current stabilized result
+        bool initialized;       ///< Initialization flag
     };
 
     /**
@@ -100,14 +102,16 @@ namespace GuitarDSP
         explicit MedianFilter(const Config &config = Config{});
 
         void Update(const PitchResult &result) override;
+
         [[nodiscard]] PitchResult GetStabilized() const override;
+
         void Reset() override;
 
     private:
-        Config config;
+        Config config;                   ///< Stabilizer configuration
         std::vector<PitchResult> window; ///< Circular buffer (pre-allocated)
-        uint32_t writeIndex;
-        uint32_t sampleCount;
+        uint32_t writeIndex;             ///< Current write position
+        uint32_t sampleCount;            ///< Number of samples in buffer
 
         [[nodiscard]] PitchResult ComputeMedian() const;
     };
@@ -143,16 +147,18 @@ namespace GuitarDSP
         explicit HybridStabilizer(const Config &config = Config{});
 
         void Update(const PitchResult &result) override;
+
         [[nodiscard]] PitchResult GetStabilized() const override;
+
         void Reset() override;
 
     private:
-        Config config;
-        MedianFilter medianFilter;
-        PitchResult emaResult;
-        bool initialized;
-
         [[nodiscard]] float ComputeAdaptiveAlpha(float confidence) const;
+
+        Config config;             ///< Stabilizer configuration
+        MedianFilter medianFilter; ///< Median filter stage
+        PitchResult emaResult;     ///< EMA stage result
+        bool initialized;          ///< Initialization flag
     };
 
 } // namespace GuitarDSP

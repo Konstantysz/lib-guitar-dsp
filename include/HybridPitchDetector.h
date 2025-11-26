@@ -57,13 +57,12 @@ namespace GuitarDSP
          */
         bool IsHarmonic(float freq1, float freq2, int harmonicNumber);
 
-        Config config;
-        std::unique_ptr<YinPitchDetector> yinDetector;
-        std::unique_ptr<MpmPitchDetector> mpmDetector;
+        Config config;                                 ///< Detector configuration
+        std::unique_ptr<YinPitchDetector> yinDetector; ///< YIN detector instance
+        std::unique_ptr<MpmPitchDetector> mpmDetector; ///< MPM detector instance
 
-        // Statistics for debugging/tuning
-        mutable size_t yinUsedCount = 0;
-        mutable size_t mpmUsedCount = 0;
+        mutable size_t yinUsedCount = 0; ///< Counter for YIN algorithm usage
+        mutable size_t mpmUsedCount = 0; ///< Counter for MPM algorithm usage
     };
 
 } // namespace GuitarDSP
