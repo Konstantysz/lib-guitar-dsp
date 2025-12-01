@@ -7,6 +7,9 @@ namespace GuitarDSP
 {
     YinPitchDetector::YinPitchDetector(const YinPitchDetectorConfig &config) : config(config), yinBuffer({})
     {
+        constexpr size_t maxExpectedFrames = 4096;
+        constexpr size_t maxYinBufferSize = maxExpectedFrames / 2;
+        yinBuffer.resize(maxYinBufferSize, 0.0f);
     }
 
     YinPitchDetector::~YinPitchDetector() = default;
@@ -25,15 +28,26 @@ namespace GuitarDSP
         const auto maxTau = static_cast<size_t>(sampleRate / config.minFrequency);
         const size_t halfBufferSize = bufferSize / 2;
 
+        // Check if buffer is large enough for the requested frequency range
         if (maxTau >= halfBufferSize)
         {
-            return std::nullopt; // Buffer too small
+            return std::nullopt; // Buffer too small for the lowest frequency
         }
 
-        // Resize YIN buffer if needed
-        if (yinBuffer.size() < halfBufferSize)
+        // Verify pre-allocated buffer is sufficient
+        if (halfBufferSize > yinBuffer.size())
         {
-            yinBuffer.resize(halfBufferSize, 0.0f);
+            // WARNING: Input buffer larger than pre-allocated yinBuffer!
+            // This should not happen with typical audio configurations (≤4096 frames).
+            // Options:
+            //  1. Increase maxExpectedFrames in constructor
+            //  2. Use smaller input buffers
+            //  3. Uncomment the resize below (causes allocation!)
+
+            // yinBuffer.resize(halfBufferSize, 0.0f); // Uncomment if needed
+
+            // For now, return error to avoid allocation
+            return std::nullopt;
         }
 
         // Step 1: Calculate difference function
