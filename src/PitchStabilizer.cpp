@@ -143,6 +143,11 @@ namespace GuitarDSP
 
     PitchResult HybridStabilizer::GetStabilized() const
     {
+        if (!initialized)
+        {
+            return medianFilter.GetStabilized();
+        }
+
         return emaResult;
     }
 
