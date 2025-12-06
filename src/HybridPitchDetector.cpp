@@ -80,14 +80,18 @@ namespace GuitarDSP
 
     float HybridPitchDetector::ApplyHarmonicRejection(float frequency)
     {
-        // Check if this might be a harmonic (2x, 3x, 4x) of the fundamental
-        // For guitar strings, the fundamental is usually below 400 Hz
+        // If frequency is within normal guitar playing range, assume it's correct
+        if (frequency <= 1200.0f)
+        {
+            return frequency;
+        }
+
+        // For very high frequencies (> 1200 Hz), check if they might be harmonics
 
         // Check 2nd harmonic (octave)
         float fundamental2x = frequency / 2.0f;
-        if (fundamental2x >= 80.0f && fundamental2x <= 400.0f)
+        if (fundamental2x >= 80.0f && fundamental2x <= 600.0f)
         {
-            // Check if it's a valid guitar frequency
             if (IsHarmonic(frequency, fundamental2x, 2))
             {
                 return fundamental2x;
@@ -96,7 +100,7 @@ namespace GuitarDSP
 
         // Check 3rd harmonic
         float fundamental3x = frequency / 3.0f;
-        if (fundamental3x >= 80.0f && fundamental3x <= 400.0f)
+        if (fundamental3x >= 80.0f && fundamental3x <= 600.0f)
         {
             if (IsHarmonic(frequency, fundamental3x, 3))
             {
@@ -106,7 +110,7 @@ namespace GuitarDSP
 
         // Check 4th harmonic
         float fundamental4x = frequency / 4.0f;
-        if (fundamental4x >= 80.0f && fundamental4x <= 400.0f)
+        if (fundamental4x >= 80.0f && fundamental4x <= 600.0f)
         {
             if (IsHarmonic(frequency, fundamental4x, 4))
             {
@@ -114,7 +118,7 @@ namespace GuitarDSP
             }
         }
 
-        // No harmonic detected return original
+        // No harmonic detected, return original
         return frequency;
     }
 
