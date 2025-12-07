@@ -30,44 +30,19 @@ if(NOT EXISTS "${PROJECT_SOURCE_DIR}/external/pffft/pffft.c")
     message(FATAL_ERROR "PFFFT submodule not found. Run: git submodule update --init --recursive")
 endif()
 
-# PFFFT library (C99, BSD license)
-add_library(pffft STATIC
-    external/pffft/pffft.c
-)
+# Configure PFFFT options
+set(PFFFT_USE_TYPE_FLOAT ON CACHE BOOL "" FORCE)
+set(PFFFT_USE_TYPE_DOUBLE OFF CACHE BOOL "" FORCE)
+set(INSTALL_PFFFT OFF CACHE BOOL "" FORCE)
+set(PFFFT_USE_BENCH_FFTW OFF CACHE BOOL "" FORCE)
+set(PFFFT_USE_BENCH_GREEN OFF CACHE BOOL "" FORCE)
+set(PFFFT_USE_BENCH_KISS OFF CACHE BOOL "" FORCE)
+set(PFFFT_USE_BENCH_POCKET OFF CACHE BOOL "" FORCE)
+set(PFFFT_USE_FFTPACK OFF CACHE BOOL "" FORCE)
+set(PFFFT_DISABLE_LINK_WITH_M ON CACHE BOOL "" FORCE)
 
-target_include_directories(pffft PUBLIC
-    external/pffft
-)
-
-# Advanced SIMD configuration with compiler feature detection
-include(CheckCXXCompilerFlag)
-
-if(MSVC)
-    # Windows with MSVC
-    check_cxx_compiler_flag(/arch:AVX2 COMPILER_SUPPORTS_AVX2)
-    if(COMPILER_SUPPORTS_AVX2)
-        target_compile_options(pffft PRIVATE /arch:AVX2)
-        message(STATUS "PFFFT: Enabling AVX2 for MSVC")
-    else()
-        target_compile_definitions(pffft PRIVATE PFFFT_SIMD_DISABLE)
-        message(STATUS "PFFFT: AVX2 not supported, using scalar implementation")
-    endif()
-else()
-    # Non-Windows platforms
-    check_cxx_compiler_flag(-mavx2 COMPILER_SUPPORTS_AVX2)
-    check_cxx_compiler_flag(-mfma COMPILER_SUPPORTS_FMA)
-
-    if(COMPILER_SUPPORTS_AVX2 AND COMPILER_SUPPORTS_FMA AND
-       (CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64" OR
-        CMAKE_SYSTEM_PROCESSOR MATCHES "AMD64" OR
-        CMAKE_SYSTEM_PROCESSOR MATCHES "i386"))
-        target_compile_options(pffft PRIVATE -mavx2 -mfma)
-        message(STATUS "PFFFT: Enabling AVX2 and FMA for ${CMAKE_SYSTEM_PROCESSOR}")
-    else()
-        target_compile_definitions(pffft PRIVATE PFFFT_SIMD_DISABLE)
-        message(STATUS "PFFFT: Using scalar implementation on ${CMAKE_SYSTEM_PROCESSOR}")
-    endif()
-endif()
+# Include PFFFT library (handles SIMD configuration internally)
+add_subdirectory(external/pffft EXCLUDE_FROM_ALL)
 
 # Create guitar-dsp library (static)
 add_library(guitar-dsp STATIC
@@ -77,6 +52,7 @@ add_library(guitar-dsp STATIC
     src/HybridPitchDetector.cpp
     src/NoteConverter.cpp
     src/PitchStabilizer.cpp
+    src/FFTProcessor.cpp
 )
 
 target_include_directories(guitar-dsp PUBLIC
@@ -84,7 +60,7 @@ target_include_directories(guitar-dsp PUBLIC
 )
 
 # Link PFFFT
-target_link_libraries(guitar-dsp PUBLIC pffft)
+target_link_libraries(guitar-dsp PUBLIC PFFFT)
 
 # Math library on Unix
 if(UNIX AND NOT APPLE)
