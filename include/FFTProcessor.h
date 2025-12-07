@@ -89,10 +89,10 @@ namespace GuitarDSP
         const FFTSpectrum &GetSpectrum() const;
 
     private:
-        void *fftSetup;                  ///< PFFFT setup handle
-        std::vector<float> inputBuffer;  ///< Pre-allocated input buffer
-        std::vector<float> workBuffer;   ///< Pre-allocated work buffer for PFFFT
-        FFTSpectrum spectrum;            ///< Current spectrum data
+        void *fftSetup;                 ///< PFFFT setup handle
+        std::vector<float> inputBuffer; ///< Pre-allocated input buffer
+        std::vector<float> workBuffer;  ///< Pre-allocated work buffer for PFFFT
+        FFTSpectrum spectrum;           ///< Current spectrum data
     };
 
 } // namespace GuitarDSP

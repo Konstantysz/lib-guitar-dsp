@@ -103,10 +103,7 @@ namespace GuitarDSP
     }
 
     FFTProcessor::FFTProcessor(size_t fftSize, float sampleRate)
-        : fftSetup(nullptr)
-        , inputBuffer(fftSize, 0.0f)
-        , workBuffer(fftSize, 0.0f)
-        , spectrum()
+        : fftSetup(nullptr), inputBuffer(fftSize, 0.0f), workBuffer(fftSize, 0.0f), spectrum()
     {
         spectrum.fftSize = fftSize;
         spectrum.sampleRate = sampleRate;
@@ -134,8 +131,11 @@ namespace GuitarDSP
             std::fill(inputBuffer.begin() + copySize, inputBuffer.end(), 0.0f);
         }
 
-        pffft_transform_ordered(static_cast<PFFFT_Setup *>(fftSetup), inputBuffer.data(), spectrum.data.data(),
-                                workBuffer.data(), PFFFT_FORWARD);
+        pffft_transform_ordered(static_cast<PFFFT_Setup *>(fftSetup),
+            inputBuffer.data(),
+            spectrum.data.data(),
+            workBuffer.data(),
+            PFFFT_FORWARD);
     }
 
     const FFTSpectrum &FFTProcessor::GetSpectrum() const
