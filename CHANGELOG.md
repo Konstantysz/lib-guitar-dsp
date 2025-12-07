@@ -25,14 +25,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - HybridPitchDetector combining YIN and MPM with automatic fallback
 - Harmonic rejection for 2x, 3x, 4x overtones
 - std::span-based interfaces for type-safe buffer handling
+- C++20 codebase with concepts and ranges
+- Thread-safe pitch detection suitable for real-time audio
+- Configurable detection parameters (thresholds, frequency ranges)
 
 ### Fixed
 
 - Harmonic rejection being too aggressive (was incorrectly halving frequencies in 160-800 Hz range)
 - Now only applies harmonic rejection above 1200 Hz (normal guitar playing range)
 
-### Technical
-
-- C++20 codebase with concepts and ranges
-- Thread-safe pitch detection suitable for real-time audio
-- Configurable detection parameters (thresholds, frequency ranges)
+[0.1.1]: https://github.com/konstantysz/lib-guitar-dsp/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/konstantysz/lib-guitar-dsp/releases/tag/v0.1.0
